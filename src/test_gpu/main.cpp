@@ -16,13 +16,15 @@ void read_opencl_file() {
 	}
     int input = 100;
 
-	//cv::UMat umat(512, 512, CV_32FC3, cv::Scalar(1.0f));
 	cv::UMat umat(360, 480, CV_32FC3, cv::Scalar(1.0f));
+	//cv::UMat umat(360, 480, CV_32FC3);	// no cv setTo
 
-	// no cv setTo
-	//cv::UMat umat(360, 480, CV_32FC3);
+	//cv::UMat result(500, 500, CV_32FC3);
+	cv::UMat result(500, 500, CV_32FC3, cv::Scalar(0.0f));
 
-#if 0
+// only test cv::UMat setTo
+
+//#if 0
     std::string source((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
     cv::ocl::ProgramSource programSource(source.c_str());
 
@@ -34,19 +36,23 @@ void read_opencl_file() {
 	cv::ocl::Kernel kernel("hello_world" ,program);
     kernel.set(0, input);
     kernel.set(1, umat);
+    kernel.set(2, result);
 
     //size_t global_size[] = {8, 8};
     //size_t local_size[]  = {4, 2};
     size_t global_size[] = {64, 64};
     size_t local_size[]  = {8, 16};
-    bool success = kernel.run(2, global_size, local_size, true);
-    //bool success = kernel.run(2, global_size, local_size, false);
+    //bool success = kernel.run(2, global_size, local_size, true);
+    bool success = kernel.run(2, global_size, local_size, false);
     if(success) {
         std::cout << "Running OpenCL kernel successfully." << std::endl;
     } else {
         std::cout << "Running OpenCL kernel failed." << std::endl;
     }
-#endif
+//#endif
+
+	// get result
+	cv::Mat res = result.getMat(cv::ACCESS_RW);
 }
 
 void test_opencv_opencl() {
