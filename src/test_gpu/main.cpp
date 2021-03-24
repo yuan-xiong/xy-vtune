@@ -53,6 +53,11 @@ void read_opencl_file() {
 
 	// get result
 	cv::Mat res = result.getMat(cv::ACCESS_RW);
+
+	// GPU workload and sync with CPU, CPU is waiting...
+	cv::UMat refumat = result.clone();
+	// CPU workload
+	cv::Mat refmat = res.clone();
 }
 
 void test_opencv_opencl() {
