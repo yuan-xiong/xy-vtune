@@ -6,7 +6,8 @@ project(xy-vtune)
 ##add_definitions("-Wall -g")
 #
 ## way 2: ok
-SET(CMAKE_CXX_FLAGS "-g -D_DEBUG -O0")
+#SET(CMAKE_CXX_FLAGS "-g -D_DEBUG -O0")
+SET(CMAKE_CXX_FLAGS "-g -rdynamic -D_DEBUG -O0")
 #
 ## way 3: ok with "cmake .. -DCMAKE_BUILD_TYPE=Debug"
 ##set(CMAKE_BUILD_TYPE Debug CACHE STRING "set build type to debug")
